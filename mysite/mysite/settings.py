@@ -79,6 +79,12 @@ DATABASES = {
     }
 }
 
+# Update database configuration with $DATABASE_URL.
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'] = db_from_env
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -100,3 +106,13 @@ STATIC_PATH = os.path.abspath(os.path.join(BASE_DIR, 'static'))
 STATICFILES_DIRS = (
     STATIC_PATH,
 )
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STAT_ROOT = '/static/'
+
+# Extra places for collect static to find static files.
+STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'static'),
+                    os.path.join(PROJECT_ROOT, '../polls/static')
+                    )
+
+STATICFILES_STORAGE = 'whiltenoise.django.GzipManifestStaticFileStorage'
